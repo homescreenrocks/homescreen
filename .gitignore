@@ -36,10 +36,4 @@ build/*
 *.exe
 
 **/pkg
-/src/core/frontend/bower_components
-
-
-src/github.com
-src/gopkg.in
-src/sourcegraph.com
-src/golang.org
+/core/frontend/bower_components

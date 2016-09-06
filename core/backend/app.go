@@ -26,33 +26,36 @@ func main() {
 
 	// every file in frontend will be served
 
-	m.Use(apiMiddleware(&mm))
 	log.Print(pwd + "/core/frontend/index.html")
 	m.StaticFile("/", pwd+"/core/frontend/index.html")
 	m.Static("/www", pwd+"/core/frontend")
 
 	//m.GET("/", routes.Root)
 
+	r := routes.New(&mm)
+
 	rootGroup := m.Group("/api/v1")
 	{
-		rootGroup.GET("/getmodules", routes.GetModules)
+		rootGroup.GET("/getmodules", r.GetModules)
 
-		rootGroup.GET("/getmodulesasjson", routes.GetModulesAsJSON)
-		rootGroup.GET("/findmodules", routes.FindModules)
+		rootGroup.GET("/getmodulesasjson", r.GetModulesAsJSON)
+		rootGroup.GET("/findmodules", r.FindModules)
+
+		rootGroup.POST("/registermodule", r.RegisterModule)
 
 		moduleGroup := rootGroup.Group("/modules/:module")
 		{
 			moduleGroup.GET("/", func(c *gin.Context) {
 				c.String(http.StatusOK, "Parameter is %s", c.Param("module"))
 			})
-			moduleGroup.GET("/execute", routes.ExecuteModules)
+			moduleGroup.GET("/execute", r.ExecuteModules)
 		}
 
 		settingsGroup := rootGroup.Group("/settings")
 		{
-			settingsGroup.GET("/", routes.GetSettings)
-			settingsGroup.GET("/:module", routes.SetSettingsPerModule)
-			settingsGroup.POST("/:module/:key", routes.SetSettingsPerModulePerKey)
+			settingsGroup.GET("/", r.GetSettings)
+			settingsGroup.GET("/:module", r.SetSettingsPerModule)
+			settingsGroup.POST("/:module/:key", r.SetSettingsPerModulePerKey)
 		}
 	}
 
@@ -77,11 +80,4 @@ func main() {
 	//log.Println(http.ListenAndServe("0.0.0.0:3000", m))
 	m.Run(":3000")
 
-}
-
-func apiMiddleware(mm *modulemanager.ModuleManager) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.Set("mm", &mm)
-		c.Next()
-	}
 }

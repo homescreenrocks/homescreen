@@ -105,3 +105,7 @@ func (mm *ModuleManager) readModuleConfig(file string) {
 	//log.Println("done with reading module config", file)
 	mm.modules[m.Name] = m
 }
+
+func (mm *ModuleManager) AddModule(m types.Module) {
+	mm.modules[m.Name] = m
+}
