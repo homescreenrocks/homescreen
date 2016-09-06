@@ -1,0 +1,31 @@
+<!doctype html>
+<html ng-app="homescreenApp">
+
+<head>
+    <title>Homescreen.rocks</title>
+    <link rel="stylesheet" href="www/css/main.css">
+    <link rel="stylesheet" href="www/bower_components/bootstrap-css-only/css/bootstrap.min.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="http://homescreen.rocks">Homescreen.rocks</a>
+            </div>
+            <hs-navigation></hs-navigation>
+        </div>
+    </nav>
+
+    <ui-view></ui-view>
+
+    <script src="www/bower_components/angular/angular.min.js"></script>
+    <script src="www/bower_components/angular-aria/angular-aria.min.js"></script>
+    <script src="www/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="www/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="www/app/homescreen.js"></script>
+    <script src="www/app/homescreen.router.js"></script>
+    <script src="www/app/components/main/NavigationCtrl.js"></script>
+</body>
+
+</html>

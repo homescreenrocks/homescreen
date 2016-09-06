@@ -1,0 +1,32 @@
+{
+  "name": "weathermodule",
+  "description": "Weathermoduledescription",
+  "version": "0.2",
+  "settings": {
+    "apikey": {
+      "default": "806445d661921d31664365287b306b31",
+      "type": "string",
+      "mandatory": true,
+      "description": "Your OpenWeatherMap API key",
+      "additional": {}
+    },
+    "language": {
+      "default": "en",
+      "possibleValues": [
+        "de",
+        "en"
+      ],
+      "type": "enum",
+      "mandatory": true
+    },
+    "units": {
+      "default": "metric",
+      "possibleValues": [
+        "metric",
+        "imperial"
+      ],
+      "type": "enum",
+      "mandatory": true
+    }
+  }
+}

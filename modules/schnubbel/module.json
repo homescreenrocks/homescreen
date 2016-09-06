@@ -1,0 +1,33 @@
+{
+  "name": "schnubbelmodule",
+  "description": "Schnubbelmoduledescription",
+  "version": "0.9999",
+  "settings": {
+    "apikey": {
+      "default": "1234567890abcdef",
+      "type": "string",
+      "mandatory": true,
+      "description": "some API key ",
+      "additional": {},
+      "value": "ABC"
+    },
+    "language": {
+      "default": "en",
+      "possibleValues": [
+        "de",
+        "en"
+      ],
+      "type": "enum",
+      "mandatory": true
+    },
+    "units": {
+      "default": "imperial",
+      "possibleValues": [
+        "metric",
+        "imperial"
+      ],
+      "type": "enum",
+      "mandatory": true
+    }
+  }
+}
