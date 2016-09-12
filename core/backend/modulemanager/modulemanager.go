@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"path/filepath"
 
 	"github.com/homescreenrocks/homescreen/core/backend/types"
@@ -12,14 +13,22 @@ import (
 const MODULES_FOLDER = "./modules"
 
 type ModuleManager struct {
-	modules map[string]types.Module
+	modules  map[string]types.Module
+	settings ModuleManagerSettings
+}
+
+type ModuleManagerSettings struct {
+	execMode bool
 }
 
 // New creates ModuleManager instance
-func New() ModuleManager {
+func New(execmode bool) ModuleManager {
 	mm := ModuleManager{}
 	mm.modules = make(map[string]types.Module)
 
+	// set settings
+	mm.settings.execMode = execmode
+	log.Println(mm)
 	return mm
 }
 

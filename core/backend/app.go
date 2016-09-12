@@ -16,9 +16,9 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	m := gin.Default()
 
-	var execMode = flag.Bool("exec", true, "spawns plugins during startup")
+	var execMode = flag.Bool("exec", false, "spawns plugins during startup")
 	flag.Parse()
-	mm := modulemanager.New()
+	mm := modulemanager.New(*execMode)
 
 	pwd, err := os.Getwd()
 	if err != nil {
