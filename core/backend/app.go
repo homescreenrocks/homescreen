@@ -16,7 +16,6 @@ func main() {
 	m := gin.Default()
 
 	mm := modulemanager.New()
-	//m.Map(&mm)
 
 	pwd, err := os.Getwd()
 	if err != nil {
@@ -30,7 +29,6 @@ func main() {
 	m.StaticFile("/", pwd+"/core/frontend/index.html")
 	m.Static("/www", pwd+"/core/frontend")
 
-	//m.GET("/", routes.Root)
 
 	r := routes.New(&mm)
 
@@ -58,26 +56,14 @@ func main() {
 			settingsGroup.POST("/:module/:key", r.SetSettingsPerModulePerKey)
 		}
 	}
-
-	//m.GET("/", routes.Root)
-
-	/*
-		m.NotFound(func(ctx *gin.Context) (int, string) {
-			// Custom handle for 404
-			return 404, "Could not find: " + ctx.Req.RequestURI
-		})
+})
 	*/
 	m.NoRoute(func(c *gin.Context) {
 		c.Status(http.StatusNotFound)
 	})
 	mm.ScanForModules()
 	log.Println("Server is running...")
-	//log.Println(mm.GetAllModules()["schnubbelmodule"])
-	//log.Println(mm.GetAllModules()["weathermodule"])
 
-	//log.Println("==================================")
-	//log.Println(mm.GetAllModulesAsJSON())
-	//log.Println(http.ListenAndServe("0.0.0.0:3000", m))
 	m.Run(":3000")
 
 }

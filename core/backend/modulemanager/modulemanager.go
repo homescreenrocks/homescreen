@@ -54,10 +54,7 @@ func (mm *ModuleManager) ScanForModules() {
 	folder, _ := filepath.Abs(MODULES_FOLDER)
 	// search for module.json files in the modules folder
 	files, _ := filepath.Glob(folder + "/**/module.json")
-	//fmt.Println(files)
 	for _, f := range files {
-		//fmt.Println("looping the files")
-		//fmt.Println(f)
 		mm.readModuleConfig(f)
 	}
 
@@ -72,7 +69,6 @@ func (mm *ModuleManager) Count() int {
 }
 
 func (mm *ModuleManager) readModuleConfig(file string) {
-	//fmt.Println("trying to read file", file)
 	content, err := ioutil.ReadFile(file)
 	if err != nil {
 		fmt.Errorf("Couldn't read file: %s\n", file)
@@ -80,29 +76,9 @@ func (mm *ModuleManager) readModuleConfig(file string) {
 
 	var m types.Module
 	err = json.Unmarshal(content, &m)
-	//fmt.Println(m)
 
-	//x := m.(map[string]interface{})
-	// x["apikey"]
-	/*
-		fmt.Println(m.Settings)
-		fmt.Println(m.Settings["apikey"])
-		fmt.Println(m.Settings["apikey"].Default)
-		fmt.Println(m.Settings["apikey"].Description)
-		fmt.Println(m.Settings["apikey"].Mandatory)
-		fmt.Println(m.Settings["apikey"].PossibleValues)
-		fmt.Println(m.Settings["apikey"].Type)
-
-		fmt.Println(m.Settings["language"])
-		fmt.Println(m.Settings["language"].Default)
-		fmt.Println(m.Settings["language"].Description)
-		fmt.Println(m.Settings["language"].Mandatory)
-		fmt.Println(m.Settings["language"].PossibleValues)
-		fmt.Println(m.Settings["language"].Type)
-	*/
 	m.Dir = filepath.Dir(file)
-	//fmt.Printf("%T %T", x.(map[string]interface{}))
-	//log.Println("done with reading module config", file)
+
 	mm.modules[m.Name] = m
 }
 
