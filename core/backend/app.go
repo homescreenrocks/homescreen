@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"net/http"
 	"os"
@@ -15,6 +16,8 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 	m := gin.Default()
 
+	var execMode = flag.Bool("exec", true, "spawns plugins during startup")
+	flag.Parse()
 	mm := modulemanager.New()
 
 	pwd, err := os.Getwd()
@@ -28,7 +31,6 @@ func main() {
 	log.Print(pwd + "/core/frontend/index.html")
 	m.StaticFile("/", pwd+"/core/frontend/index.html")
 	m.Static("/www", pwd+"/core/frontend")
-
 
 	r := routes.New(&mm)
 
@@ -56,8 +58,7 @@ func main() {
 			settingsGroup.POST("/:module/:key", r.SetSettingsPerModulePerKey)
 		}
 	}
-})
-	*/
+
 	m.NoRoute(func(c *gin.Context) {
 		c.Status(http.StatusNotFound)
 	})
