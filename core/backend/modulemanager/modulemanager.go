@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"path/filepath"
 
+	"github.com/gin-gonic/gin"
 	"github.com/homescreenrocks/homescreen/core/backend/types"
 )
 
@@ -32,21 +34,22 @@ func New(execmode bool) ModuleManager {
 	return mm
 }
 
+func (mm *ModuleManager) RegisterRouterGroup(group *gin.RouterGroup) {
+	group.GET("/list", func(c *gin.Context) {
+		c.JSON(http.StatusOK, (*mm).GetAllModules())
+	})
+
+	group.POST("/register", func(c *gin.Context) {
+		var m types.Module
+		dec := json.NewDecoder(c.Request.Body)
+		dec.Decode(&m)
+		mm.AddModule(m)
+	})
+}
+
 // GetAllModules returns all Modules as map[string]types.Module
 func (mm *ModuleManager) GetAllModules() map[string]types.Module {
 	return mm.modules
-}
-
-//GetAllModulesAsJSON return JSON
-func (mm *ModuleManager) GetAllModulesAsJSON() []byte {
-	ret, _ := json.Marshal(mm.modules)
-	return ret
-}
-
-//GetModuleAsJSON return JSON for specified module
-func (mm *ModuleManager) GetModuleAsJSON(key string) []byte {
-	ret, _ := json.Marshal(mm.modules[key])
-	return ret
 }
 
 // GetModule returns specified module or an empty one if module does not exist
@@ -67,10 +70,6 @@ func (mm *ModuleManager) ScanForModules() {
 		mm.readModuleConfig(f)
 	}
 
-}
-
-func (mm *ModuleManager) moduleExists(m string) bool {
-	return false
 }
 
 func (mm *ModuleManager) Count() int {

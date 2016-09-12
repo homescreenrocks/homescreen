@@ -9,7 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/homescreenrocks/homescreen/core/backend/modulemanager"
-	"github.com/homescreenrocks/homescreen/core/backend/routes"
 )
 
 func main() {
@@ -32,31 +31,9 @@ func main() {
 	m.StaticFile("/", pwd+"/core/frontend/index.html")
 	m.Static("/www", pwd+"/core/frontend")
 
-	r := routes.New(&mm)
-
 	rootGroup := m.Group("/api/v1")
 	{
-		rootGroup.GET("/getmodules", r.GetModules)
-
-		rootGroup.GET("/getmodulesasjson", r.GetModulesAsJSON)
-		rootGroup.GET("/findmodules", r.FindModules)
-
-		rootGroup.POST("/registermodule", r.RegisterModule)
-
-		moduleGroup := rootGroup.Group("/modules/:module")
-		{
-			moduleGroup.GET("/", func(c *gin.Context) {
-				c.String(http.StatusOK, "Parameter is %s", c.Param("module"))
-			})
-			moduleGroup.GET("/execute", r.ExecuteModules)
-		}
-
-		settingsGroup := rootGroup.Group("/settings")
-		{
-			settingsGroup.GET("/", r.GetSettings)
-			settingsGroup.GET("/:module", r.SetSettingsPerModule)
-			settingsGroup.POST("/:module/:key", r.SetSettingsPerModulePerKey)
-		}
+		mm.RegisterRouterGroup(rootGroup.Group("/modules"))
 	}
 
 	m.NoRoute(func(c *gin.Context) {
