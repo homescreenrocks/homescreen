@@ -40,7 +40,7 @@ func main() {
 		c.Status(http.StatusNotFound)
 	})
 	mm.ScanForModules()
-	log.Println("Server is running...")
+	log.Println("Server is running on tcp port 3000...")
 
 	m.Run(":3000")
 
