@@ -1,6 +1,6 @@
 <div class="panel panel-default">
-    <div class="panel-heading" ng-click="vm.openSettings('main')" style="cursor:pointer;">
-        <h3 class="panel-title"><i class="glyphicon glyphicon-wrench" aria-hidden="true"></i> Main settings <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': vm.open === 'main', 'glyphicon-chevron-right': vm.open !== 'main'}"></i></h3>
+    <div class="panel-heading" ng-click="vm.openSettings('main')">
+        <h1 class="panel-title"><i class="glyphicon glyphicon-wrench" aria-hidden="true"></i> Main settings <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': vm.open === 'main', 'glyphicon-chevron-right': vm.open !== 'main'}"></i></h1>
     </div>
     <div class="panel-body" ng-if="vm.open === 'main'">
         Panel content
@@ -8,11 +8,44 @@
 </div>
 
 <div class="panel panel-default">
-    <div class="panel-heading" ng-click="vm.openSettings('modules')" style="cursor:pointer;">
-        <h3 class="panel-title"><i class="glyphicon glyphicon-certificate" aria-hidden="true"></i> Module settings <i class="pull-right glyphicon"
-                ng-class="{'glyphicon-chevron-down': vm.open === 'modules', 'glyphicon-chevron-right': vm.open !== 'modules'}"></i></h3>
+    <div class="panel-heading" ng-click="vm.openSettings('modules')">
+        <h1 class="panel-title"><i class="glyphicon glyphicon-certificate" aria-hidden="true"></i> Module settings <i class="pull-right glyphicon"
+                ng-class="{'glyphicon-chevron-down': vm.open === 'modules', 'glyphicon-chevron-right': vm.open !== 'modules'}"></i></h1>
     </div>
     <div class="panel-body" ng-if="vm.open === 'modules'">
-        Panel content
+        <div ng-repeat="(id, module) in vm.modules track by $index1">
+            <div>
+                <h3>{{module.metadata.name}} <small>{{module.metadata.version}}</small></h3>
+                <p>{{module.metadata.description}}</p>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Value</th>
+                            <th>Default</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="setting in module.settings track by $index2">
+                            <td>{{setting.name}}<abbr ng-if="!setting.mandatory" title="mandatory field">*</abbr> <small ng-if="setting.description">({{setting.description}})</small></td>
+                            <td>
+                                <input ng-if="setting.type === 'string'" type="text" placeholder="{{setting.default}}" ng-model="setting.value" class="form-control">
+                                <input ng-if="setting.type === 'number'" type="number" placeholder="{{setting.default}}" ng-model="setting.value" class="form-control">
+                                <div ng-if="setting.type === 'boolean'">
+                                    <label class="radio-inline"><input type="radio" ng-model="setting.value" name="radioSetting_$index1_$index2" ng-value="true"> true</label>
+                                    <label class="radio-inline"><input type="radio" ng-model="setting.value" name="radioSetting_$index1_$index2" ng-value="false"> false</label>
+                                </div>
+                            </td>
+                            <td>
+                                {{setting.default}}
+                                <span ng-if="setting.default !== setting.value" class="text-primary" ng-click="setting.value = setting.default">
+                                    <span class="glyphicon glyphicon-repeat" aria-hidden="true" title="reset to default"><span class="sr-only">reset to default</span></span>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>

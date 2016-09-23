@@ -89,5 +89,5 @@ func (mm *ModuleManager) Count() int {
 }
 
 func (mm *ModuleManager) AddModule(m shared.Module) {
-	mm.modules[m.Metadata.Name] = m
+	mm.modules[m.Metadata.ID] = m
 }

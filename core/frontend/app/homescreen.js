@@ -2,6 +2,7 @@
     'use strict';
 
     angular.module('homescreenApp', [
+        'ngAria',
         'ui.router',
         'ui.bootstrap'
     ]).run(function ($rootScope) {
