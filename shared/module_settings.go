@@ -8,5 +8,6 @@ type ModuleSetting struct {
 	Type           string      `json:"type"`
 	Mandatory      bool        `json:"mandatory"`
 	Description    string      `json:"description"`
-	PossibleValues []string    `json:"possile-values,omitempty"`
+	PossibleValues []string    `json:"possible-values,omitempty"`
+	Value          interface{} `json:"value"`
 }

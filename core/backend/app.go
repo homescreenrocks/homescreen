@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/homescreenrocks/homescreen/core/backend/modulemanager"
+	"github.com/homescreenrocks/homescreen/core/backend/storage"
 )
 
 func main() {
@@ -17,7 +18,13 @@ func main() {
 
 	var execMode = flag.Bool("exec", false, "spawns plugins during startup")
 	flag.Parse()
-	mm := modulemanager.New(*execMode)
+
+	ds, err := storage.New("storage.db")
+	if err != nil {
+		log.Println(err)
+		os.Exit(1)
+	}
+	mm := modulemanager.New(ds, *execMode)
 
 	pwd, err := os.Getwd()
 	if err != nil {
@@ -34,6 +41,7 @@ func main() {
 	rootGroup := m.Group("/api/v1")
 	{
 		mm.RegisterRouterGroup(rootGroup.Group("/modules"))
+		ds.RegisterRouterGroup(rootGroup.Group("/storage"))
 	}
 
 	m.NoRoute(func(c *gin.Context) {
