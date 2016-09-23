@@ -7,12 +7,13 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/homescreenrocks/homescreen/shared"
 )
 
 const MODULES_FOLDER = "./modules"
 
 type ModuleManager struct {
-	modules  map[string]Module
+	modules  map[string]shared.Module
 	settings ModuleManagerSettings
 }
 
@@ -23,7 +24,7 @@ type ModuleManagerSettings struct {
 // New creates ModuleManager instance
 func New(execmode bool) ModuleManager {
 	mm := ModuleManager{}
-	mm.modules = make(map[string]Module)
+	mm.modules = make(map[string]shared.Module)
 
 	// set settings
 	mm.settings.execMode = execmode
@@ -37,45 +38,34 @@ func (mm *ModuleManager) RegisterRouterGroup(group *gin.RouterGroup) {
 	})
 
 	group.POST("/register", func(c *gin.Context) {
-		var req RegisterRequest
+		var req shared.Module
 		err := c.BindJSON(&req)
 		if err != nil {
 			c.JSON(400, HttpError{"Decoding HTTP body failed.", err})
 			return
 		}
 
-		if strings.TrimSpace(req.PluginURL) == "" {
-			c.JSON(400, HttpError{"Attribute 'plugin-url' is missing.", nil})
+		if strings.TrimSpace(req.ModuleURL) == "" {
+			c.JSON(400, HttpError{"Attribute 'module-url' is missing.", nil})
 			return
 		}
 
-		metadata, err := GetMetadata(req.PluginURL)
-		if err != nil {
-			log.Print(err)
-			c.JSON(400, HttpError{"Unable to get metadata", err})
-			return
-		}
-
-		if mm.GetModule(metadata.Name) != nil {
+		if mm.GetModule(req.Metadata.Name) != nil {
 			c.JSON(423, HttpError{"Module already registered.", nil})
 			return
 		}
 
-		module := Module{
-			Metadata: metadata,
-		}
-
-		mm.AddModule(module)
+		mm.AddModule(req)
 	})
 }
 
 // GetAllModules returns all Modules as map[string]types.Module
-func (mm *ModuleManager) GetAllModules() map[string]Module {
+func (mm *ModuleManager) GetAllModules() map[string]shared.Module {
 	return mm.modules
 }
 
 // GetModule returns specified module or an empty one if module does not exist
-func (mm *ModuleManager) GetModule(key string) *Module {
+func (mm *ModuleManager) GetModule(key string) *shared.Module {
 	if val, ok := mm.modules[key]; ok {
 		return &val
 	}
@@ -98,6 +88,6 @@ func (mm *ModuleManager) Count() int {
 	return len(mm.modules)
 }
 
-func (mm *ModuleManager) AddModule(m Module) {
+func (mm *ModuleManager) AddModule(m shared.Module) {
 	mm.modules[m.Metadata.Name] = m
 }

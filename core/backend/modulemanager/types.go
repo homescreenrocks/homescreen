@@ -5,25 +5,11 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/homescreenrocks/homescreen/core/backend/types"
+	"github.com/homescreenrocks/homescreen/shared"
 )
 
-type Module struct {
-	PluginUrl string
-	Metadata  *Metadata
-	Settings  map[string]types.Setting
-}
-
-type Metadata struct {
-	ID          string
-	Name        string
-	Version     string
-	Description string
-	Dir         string
-}
-
-func GetMetadata(pluginUrl string) (*Metadata, error) {
-	res, err := http.Get(fmt.Sprintf("http://%s/v1/metadata", pluginUrl))
+func GetMetadata(moduleUrl string) (*shared.ModuleMetadata, error) {
+	res, err := http.Get(fmt.Sprintf("%s/v1/metadata", moduleUrl))
 	if err != nil {
 		return nil, err
 	}
@@ -32,7 +18,7 @@ func GetMetadata(pluginUrl string) (*Metadata, error) {
 		return nil, fmt.Errorf("Unexpected status code %d", res.StatusCode)
 	}
 
-	metadata := new(Metadata)
+	metadata := new(shared.ModuleMetadata)
 	dec := json.NewDecoder(res.Body)
 	err = dec.Decode(metadata)
 	if err != nil {
@@ -40,10 +26,6 @@ func GetMetadata(pluginUrl string) (*Metadata, error) {
 	}
 
 	return metadata, nil
-}
-
-type RegisterRequest struct {
-	PluginURL string `json:"plugin-url"`
 }
 
 type HttpError struct {
