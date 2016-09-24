@@ -13,7 +13,7 @@
                 ng-class="{'glyphicon-chevron-down': vm.open === 'modules', 'glyphicon-chevron-right': vm.open !== 'modules'}"></i></h1>
     </div>
     <div class="panel-body" ng-if="vm.open === 'modules'">
-        <div ng-repeat="(id, module) in vm.modules track by $index1">
+        <div ng-repeat="module in vm.modules track by $index">
             <div>
                 <h3>{{module.metadata.name}} <small>{{module.metadata.version}}</small></h3>
                 <p>{{module.metadata.description}}</p>
@@ -23,17 +23,22 @@
                             <th>Key</th>
                             <th>Value</th>
                             <th>Default</th>
+                            <th>&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="setting in module.settings track by $index2">
-                            <td>{{setting.name}}<abbr ng-if="!setting.mandatory" title="mandatory field">*</abbr> <small ng-if="setting.description">({{setting.description}})</small></td>
+                        <tr ng-class="{'warning':!formSettings_$parent.$index_$index.$pristine}" ng-repeat="setting in module.settings track by $index"
+                            ng-form="formSettings_$parent.$index_$index" confirm-on-exit="!formSettings_$parent.$index_$index.$pristine"
+                            confirm-message-window="All your unsaved changes will be lost." confirm-message-route="All your unsaved changes will be lost. Are you sure you want to do this?">
+                            <td>{{setting.name}}<abbr ng-if="setting.mandatory" title="mandatory field">*</abbr>
+                                <small ng-if="setting.description">({{setting.description}})</small>
+                            </td>
                             <td>
                                 <input ng-if="setting.type === 'string'" type="text" placeholder="{{setting.default}}" ng-model="setting.value" class="form-control">
                                 <input ng-if="setting.type === 'number'" type="number" placeholder="{{setting.default}}" ng-model="setting.value" class="form-control">
                                 <div ng-if="setting.type === 'boolean'">
-                                    <label class="radio-inline"><input type="radio" ng-model="setting.value" name="radioSetting_$index1_$index2" ng-value="true"> true</label>
-                                    <label class="radio-inline"><input type="radio" ng-model="setting.value" name="radioSetting_$index1_$index2" ng-value="false"> false</label>
+                                    <label class="radio-inline"><input type="radio" ng-model="setting.value" name="radioSetting_$parent.$index_$index" ng-value="true"> true</label>
+                                    <label class="radio-inline"><input type="radio" ng-model="setting.value" name="radioSetting_$parent.$index_$index" ng-value="false"> false</label>
                                 </div>
                             </td>
                             <td>
@@ -41,6 +46,9 @@
                                 <span ng-if="setting.default !== setting.value" class="text-primary" ng-click="setting.value = setting.default">
                                     <span class="glyphicon glyphicon-repeat" aria-hidden="true" title="reset to default"><span class="sr-only">reset to default</span></span>
                                 </span>
+                            </td>
+                            <td>
+                                <span ng-if="!formSettings_$parent.$index_$index.$pristine"><button class="btn btn-primary" ng-click="vm.saveSetting(module.metadata.id,setting.name,setting.value,formSettings_$parent.$index_$index)"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> save changes</button></span>
                             </td>
                         </tr>
                     </tbody>

@@ -5,7 +5,7 @@ This is a service for your personal touchscreen at home. You can display and con
 * [Go](https://golang.org/) to compile the backend
 * [Bower](https://bower.io/) to load the frontend dependencies
 
-## Setup
+## Compile it yourself
 * go get this project and the dependencies
   + go get github.com/homescreenrocks/homescreen
   + ...
@@ -19,6 +19,8 @@ This is a service for your personal touchscreen at home. You can display and con
 
 > we should provide a more easy way of usage :)
 
-## Plugin development
-* find the API requirements for cumstom plugins in our [docs](/docs)
+## Use the binaries
+* ...
 
+## Frontend requirements
+* any modern browser (Chrome, Edge, Firefox)

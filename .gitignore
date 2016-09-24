@@ -39,3 +39,4 @@ build/*
 /core/frontend/bower_components
 /vendor
 /storage.db
+/storage.db.lock
