@@ -43,7 +43,7 @@
                             </td>
                             <td>
                                 {{setting.default}}
-                                <span ng-if="setting.default !== setting.value" class="text-primary" ng-click="setting.value = setting.default">
+                                <span ng-if="setting.default !== setting.value" class="text-primary" ng-click="setting.value = setting.default; formSettings_$parent.$index_$index.$setDirty();">
                                     <span class="glyphicon glyphicon-repeat" aria-hidden="true" title="reset to default"><span class="sr-only">reset to default</span></span>
                                 </span>
                             </td>

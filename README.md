@@ -14,10 +14,10 @@ This is a service for your personal touchscreen at home. You can display and con
   + `bower install` the frontend dependencies from core/frontend folder
 * get the plugins you want
   +  go get github.com/homescreenrocks/homescreen-plugin-example
-* cd to homescreen backend folder
-  + compile and start the backend from main directory: `go build core\backend\app.go && app`
-* cd to a plugin
-  + compile and start the plugin: `go build example\main.go && main http://localhost:3000`
+* compile and start the homescreen core
+  + execute in the main directory: `go build core\backend\app.go && app`
+* compile and start a plugin
+  + cd to the plugin: `go build example\main.go && main http://localhost:3000`
 
 > we should provide a more easy way of usage :)
 
