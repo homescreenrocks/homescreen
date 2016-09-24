@@ -1,8 +1,11 @@
 package modulemanager
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"net/http/httputil"
+	"net/url"
 	"path"
 	"path/filepath"
 	"strings"
@@ -55,12 +58,37 @@ func (mm *ModuleManager) RegisterRouterGroup(group *gin.RouterGroup) {
 			return
 		}
 
-		if mm.GetModule(req.Metadata.Name) != nil {
+		if mm.GetModule(req.Metadata.ID) != nil {
 			c.JSON(423, shared.HttpError{"Module already registered.", nil})
 			return
 		}
 
 		mm.AddModule(&req)
+	})
+
+	group.Any("/module/:module/proxy/*path", func(c *gin.Context) {
+		module := mm.GetModule(c.Param("module"))
+		if module == nil {
+			c.JSON(404, shared.HttpError{"Module not found.", nil})
+			return
+		}
+
+		target, err := url.Parse(module.ModuleURL)
+		if module == nil {
+			c.JSON(500, shared.HttpError{"Error connecting to module.", err})
+			return
+		}
+
+		oldPrefix := fmt.Sprintf("%s/module/%s/proxy", group.BasePath(), module.Metadata.ID)
+		newPrefix := "/module"
+
+		var handler http.Handler
+		handler = httputil.NewSingleHostReverseProxy(target)
+		handler = HTTPAddPrefix(newPrefix, handler)
+		handler = http.StripPrefix(oldPrefix, handler)
+
+		wrapper := gin.WrapH(handler)
+		wrapper(c)
 	})
 }
 
