@@ -41,11 +41,11 @@ func New(storage *storage.Storage, execmode bool) ModuleManager {
 }
 
 func (mm *ModuleManager) RegisterRouterGroup(group *gin.RouterGroup) {
-	group.GET("/list", func(c *gin.Context) {
+	group.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, (*mm).GetAllModules())
 	})
 
-	group.POST("/register", func(c *gin.Context) {
+	group.POST("/", func(c *gin.Context) {
 		var req shared.Module
 		err := c.BindJSON(&req)
 		if err != nil {
@@ -66,7 +66,7 @@ func (mm *ModuleManager) RegisterRouterGroup(group *gin.RouterGroup) {
 		mm.AddModule(&req)
 	})
 
-	group.Any("/module/:module/proxy/*path", func(c *gin.Context) {
+	group.Any("/:module/proxy/*path", func(c *gin.Context) {
 		module := mm.GetModule(c.Param("module"))
 		if module == nil {
 			c.JSON(404, shared.HttpError{"Module not found.", nil})
@@ -79,7 +79,7 @@ func (mm *ModuleManager) RegisterRouterGroup(group *gin.RouterGroup) {
 			return
 		}
 
-		oldPrefix := fmt.Sprintf("%s/module/%s/proxy", group.BasePath(), module.Metadata.ID)
+		oldPrefix := fmt.Sprintf("%s/%s/proxy", group.BasePath(), module.Metadata.ID)
 		newPrefix := "/module"
 
 		var handler http.Handler
