@@ -5,10 +5,7 @@
         'ngAria',
         'ui.router',
         'ui.bootstrap'
-    ]).run(['$rootScope', '$http', function ($rootScope, $http) {
-
-        //$http.defaults.headers.post["Content-Type"] = "application/json";
-
+    ]).run(['$rootScope', function ($rootScope) {
         $rootScope.$on('$stateNotFound',
             function (event, unfoundState, fromState, fromParams) {
                 console.log(unfoundState.to);

@@ -3,19 +3,21 @@ This is a service for your personal touchscreen at home. You can display and con
 
 ## Requirements for compiling
 * [Go](https://golang.org/) to compile the backend
+* [Glide](https://golang.org/) to load backend dependencies
 * [Bower](https://bower.io/) to load the frontend dependencies
 
 ## Compile it yourself
-* go get this project and the dependencies
+* go get this project
   + go get github.com/homescreenrocks/homescreen
-  + ...
-  + bower install the frontend dependencies
+* load dependencies
+  + `glide install` the backend dependencies from main directory
+  + `bower install` the frontend dependencies from core/frontend folder
 * get the plugins you want
   +  go get github.com/homescreenrocks/homescreen-plugin-example
 * cd to homescreen backend folder
-  + compile and start the backend
+  + compile and start the backend from main directory: `go build core\backend\app.go && app`
 * cd to a plugin
-  + compile and start the plugin
+  + compile and start the plugin: `go build example\main.go && main http://localhost:3000`
 
 > we should provide a more easy way of usage :)
 
