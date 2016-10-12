@@ -5,6 +5,7 @@
 
     function homescreenAppRouter($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.when('', '/');
+        $urlRouterProvider.otherwise('/');
         $stateProvider.state({
             name: 'dashboard',
             url: '/',

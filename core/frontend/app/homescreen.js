@@ -4,7 +4,8 @@
     angular.module('homescreenApp', [
         'ngAria',
         'ui.router',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'oc.lazyLoad'
     ]).run(['$rootScope', function ($rootScope) {
         $rootScope.$on('$stateNotFound',
             function (event, unfoundState, fromState, fromParams) {
