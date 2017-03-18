@@ -9,6 +9,7 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/homescreenrocks/homescreen/core/backend/storage"
@@ -95,7 +96,7 @@ func (mm *ModuleManager) RegisterRouterGroup(group *gin.RouterGroup) {
 // GetAllModules returns all Modules as map[string]types.Module
 func (mm *ModuleManager) GetAllModules() []*shared.Module {
 	modules := make([]*shared.Module, 0)
-	for key, _ := range mm.modules {
+	for key := range mm.modules {
 		modules = append(modules, mm.GetModule(key))
 	}
 
@@ -132,7 +133,7 @@ func (mm *ModuleManager) ScanForModules() {
 	folder, _ := filepath.Abs(MODULES_FOLDER)
 	// search for module.json files in the modules folder
 	files, _ := filepath.Glob(folder + "/**/module.json")
-	for _, _ = range files {
+	for _ = range files {
 		//mm.readModuleConfig(f)
 	}
 
@@ -144,4 +145,20 @@ func (mm *ModuleManager) Count() int {
 
 func (mm *ModuleManager) AddModule(m *shared.Module) {
 	mm.modules[m.Metadata.ID] = m
+	mm.AddWatchdog(m.Metadata.ID)
+
+}
+
+func (mm *ModuleManager) AddWatchdog(id string) {
+	go func() {
+		flushTicker := time.NewTicker(5 * time.Second)
+		for range flushTicker.C {
+			log.Print("Watchdog of Module " + id)
+			log.Print(mm.GetModule(id).ModuleURL)
+			resp, err := http.Get(mm.GetModule(id).ModuleURL + "/hello")
+			if err != nil || resp.StatusCode != 200 {
+				log.Print("Module is not available, I need to remove it")
+			}
+		}
+	}()
 }
