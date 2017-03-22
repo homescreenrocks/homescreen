@@ -40,3 +40,7 @@ build/*
 /vendor
 /storage.db
 /storage.db.lock
+
+vendor
+main
+.DS_Store
