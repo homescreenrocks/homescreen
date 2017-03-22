@@ -8,6 +8,13 @@ This is a service for your personal touchscreen at home. You can display and con
 * If you are using the (old) AngularJS-Forntend:
   - [Bower](https://bower.io/) to load the AngularJS frontend dependencies
 
+## Quickstart
+after you got the project working following the guide in "Compile it yourself", and this works without any errror, you can use the quicker way to start the backend, the module library and the Angular frontend.
+Just navigate into the frontend directory and run:
+```
+npm run start-all
+```
+
 ## Compile it yourself
 * go get this project
   + go get github.com/homescreenrocks/homescreen

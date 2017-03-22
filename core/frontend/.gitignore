@@ -40,3 +40,10 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# go files
+main
+main.exe
+app
+app.exe
+storage.db
