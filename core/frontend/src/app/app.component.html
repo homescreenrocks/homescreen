@@ -1,22 +1,23 @@
-<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
-  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="http://homescreen.rocks">Homescreen.rocks</a>
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="settings">
-          <span >Settings</span>
-        </a>
-      </li>
-    </ul>
-  </div>
-</nav>
+<md-toolbar color="primary">
+    <button md-button routerLink="/">
+      <md-icon>home</md-icon> Homescreen.rocks
+    </button>
 
-<div class="container-fluid">
-  <router-outlet></router-outlet>
+    <!-- This fills the remaining space of the current row -->
+    <span class="fill-remaining-space"></span>
+
+    <div fxLayout="row" fxShow="false" fxShow.gt-sm>
+        <button md-button routerLink="/settings">Settings</button>
+    </div>
+    <button md-button [md-menu-trigger-for]="menu" fxHide="false" fxHide.gt-sm>
+       <md-icon>menu</md-icon>
+    </button>
+
+</md-toolbar>
+<md-menu x-position="before" #menu="mdMenu">
+    <button md-menu-item routerLink="/settings">Settings</button>
+</md-menu>
+
+<div style="padding: 20px;">
+ <router-outlet></router-outlet>
 </div>

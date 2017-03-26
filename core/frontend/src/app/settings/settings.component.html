@@ -1,21 +1,41 @@
-<div class="card" *ngFor="let module of modules">
-  <div class="card-block">
-    <h4 class="card-title">
-      {{ module.metadata.name }}
-      <small><span class="badge badge-primary">{{ module.metadata.version }}</span></small>
-    </h4>
-    <h6 class="card-subtitle mb-2 text-muted">{{ module.metadata.description }}</h6>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item"
-        *ngFor="let setting of module.settings">{{ setting.name }}
+<md-card *ngFor="let module of modules">
+  <md-card-header mdTooltip="{{ module.metadata.version }}" mdTooltipPosition="right">
+    <md-card-title>
+      <h3>{{ module.metadata.name }}</h3>
+    </md-card-title>
+  </md-card-header>
+  <md-card-subtitle>
+    {{ module.metadata.description }}
+  </md-card-subtitle>
+  <md-card-content>
+    <md-list>
+      <h3 md-subheader>Einstellungen</h3>
+      <md-list-item *ngFor="let setting of module.settings">
+        <h4 md-line>{{ setting.name }}</h4>
+        <div [ngSwitch]="setting.type">
+          <input mdInput *ngSwitchCase="'string'" type="text" [(ngModel)]="setting.value" class="form-control"/>
+          <input mdInput *ngSwitchCase="'number'" type="number" [(ngModel)]="setting.value" class="form-control"/>
+          <input mdInput *ngSwitchCase="'date'" type="date" [(ngModel)]="setting.value"/>
+        </div>
 
-      <div [ngSwitch]="setting.type">
-        <input *ngSwitchCase="'string'" type="text" [(ngModel)]="setting.value" class="form-control"/>
-        <input *ngSwitchCase="'number'" type="number" [(ngModel)]="setting.value" class="form-control"/>
-        <ngb-datepicker *ngSwitchCase="'date'" [(ngModel)]="setting.value"></ngb-datepicker>
+      </md-list-item>
+    </md-list>
+
+    <form>
+      <div *ngFor="let s of module.settings">
+        <div [ngSwitch]="s.type">
+          <md-input-container *ngIf="s.type != 'bool'" class="example-full-width">
+            <input mdInput *ngSwitchDefault         type="text"   [(ngModel)]="s.value" [name]="s.name"/>
+            <input mdInput *ngSwitchCase="'number'" type="number" [(ngModel)]="s.value" [name]="s.name"/>
+            <input mdInput *ngSwitchCase="'date'"   type="date"   [(ngModel)]="s.value" [name]="s.name"/>
+          </md-input-container>
+          <!--<md-checkbox *ngSwitchCase="'bool'" [(ngModel)]="s.value">Checked</md-checkbox>-->
+        </div>
+      <br/>
       </div>
+    </form>
 
-    </li>
-  </ul>
-</div>
+  </md-card-content>
+</md-card>
+
+
