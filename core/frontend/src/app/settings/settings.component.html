@@ -8,19 +8,6 @@
     {{ module.metadata.description }}
   </md-card-subtitle>
   <md-card-content>
-    <md-list>
-      <h3 md-subheader>Einstellungen</h3>
-      <md-list-item *ngFor="let setting of module.settings">
-        <h4 md-line>{{ setting.name }}</h4>
-        <div [ngSwitch]="setting.type">
-          <input mdInput *ngSwitchCase="'string'" type="text" [(ngModel)]="setting.value" class="form-control"/>
-          <input mdInput *ngSwitchCase="'number'" type="number" [(ngModel)]="setting.value" class="form-control"/>
-          <input mdInput *ngSwitchCase="'date'" type="date" [(ngModel)]="setting.value"/>
-        </div>
-
-      </md-list-item>
-    </md-list>
-
     <form>
       <div *ngFor="let s of module.settings">
         <div [ngSwitch]="s.type">
@@ -29,9 +16,9 @@
             <input mdInput *ngSwitchCase="'number'" type="number" [(ngModel)]="s.value" [name]="s.name"/>
             <input mdInput *ngSwitchCase="'date'"   type="date"   [(ngModel)]="s.value" [name]="s.name"/>
           </md-input-container>
-          <!--<md-checkbox *ngSwitchCase="'bool'" [(ngModel)]="s.value">Checked</md-checkbox>-->
+          <md-checkbox *ngSwitchCase="'bool'" [(ngModel)]="s.value" [ngModelOptions]="{standalone: true}">Checked</md-checkbox>
         </div>
-      <br/>
+
       </div>
     </form>
 
