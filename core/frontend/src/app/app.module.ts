@@ -3,7 +3,19 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from '@angular/material';
+import {
+  MdInputModule,
+  MdCardModule,
+  MdToolbarModule,
+  MdButtonModule,
+  MdDatepickerModule,
+  MdFormFieldModule,
+  MdOptionModule,
+  MdMenuModule,
+  MdRadioModule,
+  MdTooltipModule,
+  MdCheckboxModule
+} from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import 'hammerjs';
 
@@ -25,8 +37,18 @@ import { DateValueAccessorModule } from 'angular-date-value-accessor';
     BrowserAnimationsModule,
     AppRoutingModule,
     DateValueAccessorModule,
-    MaterialModule,
-    FlexLayoutModule
+    MdInputModule,
+    MdCardModule,
+    MdToolbarModule,
+    MdButtonModule,
+    MdDatepickerModule,
+    MdFormFieldModule,
+    MdOptionModule,
+    MdMenuModule,
+    MdRadioModule,
+    MdTooltipModule,
+    FlexLayoutModule,
+    MdCheckboxModule
   ],
   providers: [
     ModuleService
