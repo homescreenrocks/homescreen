@@ -8,17 +8,54 @@
     {{ module.metadata.description }}
   </md-card-subtitle>
   <md-card-content>
+    <!--<form>
+      <div *ngFor="let s of module.settings">
+        <div *ngIf="s.type != 'bool'">
+          <div [ngSwitch]="s.type">
+            <md-form-field *ngSwitchDefault>
+              <input mdInput        type="text"   [(ngModel)]="s.value" [name]="s.name"/>
+            </md-form-field>
+            <md-form-field *ngSwitchCase="'number'" >
+              <input mdInputtype="number" [(ngModel)]="s.value" [name]="s.name"/>
+            </md-form-field>
+            <md-form-field *ngSwitchCase="'date'">
+              <input mdInput [mdDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="s.value" [name]="s.name">
+              <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
+              <md-datepicker #picker></md-datepicker>
+            </md-form-field>
+            <md-checkbox *ngSwitchCase="'bool'" [(ngModel)]="s.value" [ngModelOptions]="{standalone: true}">Checked</md-checkbox>
+
+          </div>
+        </div>
+      </div>
+    </form>-->
+
+
     <form>
       <div *ngFor="let s of module.settings">
-        <div [ngSwitch]="s.type">
-          <md-input-container *ngIf="s.type != 'bool'" class="example-full-width">
-            <input mdInput *ngSwitchDefault         type="text"   [(ngModel)]="s.value" [name]="s.name"/>
-            <input mdInput *ngSwitchCase="'number'" type="number" [(ngModel)]="s.value" [name]="s.name"/>
-            <input mdInput *ngSwitchCase="'date'"   type="date"   [(ngModel)]="s.value" [name]="s.name"/>
-          </md-input-container>
-          <md-checkbox *ngSwitchCase="'bool'" [(ngModel)]="s.value" [ngModelOptions]="{standalone: true}">Checked</md-checkbox>
+        <md-form-field *ngIf="s.type === 'string' && !s['possible-values']">
+          <input mdInput type="text" [(ngModel)]="s.value" [name]="s.name"/>
+        </md-form-field>
+        <md-form-field *ngIf="s.type === 'number'">
+          <input mdInput type="number" [(ngModel)]="s.value" [name]="s.name"/>
+        </md-form-field>
+        <md-form-field *ngIf="s.type === 'date'">
+          <input mdInput [mdDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="s.value" [name]="s.name">
+          <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
+          <md-datepicker #picker></md-datepicker>
+        </md-form-field>
+        <md-form-field *ngIf="s.type === 'time'">
+            <input mdInput type="text" [(ngModel)]="s.value" [name]="s.name"/>
+        </md-form-field>
+        <div *ngIf="s.type === 'bool'">
+          <!-- Info: Timepicker is on the roadmap for material2 ;-) -->
+          <md-checkbox [(ngModel)]="s.value" [ngModelOptions]="{standalone: true}">{{ s.name }}</md-checkbox>
         </div>
-
+        <md-select *ngIf="s.type === 'string' && s['possible-values']" [placeholder]="s.name" [(ngModel)]="s.value" name="s.name">
+          <md-option *ngFor="let val of s['possible-values']" [value]="s.value">
+            {{ val }}
+          </md-option>
+        </md-select>
       </div>
     </form>
 

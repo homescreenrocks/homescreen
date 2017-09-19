@@ -9,12 +9,14 @@ import {
   MdToolbarModule,
   MdButtonModule,
   MdDatepickerModule,
+  MdNativeDateModule,
   MdFormFieldModule,
   MdOptionModule,
   MdMenuModule,
   MdRadioModule,
   MdTooltipModule,
-  MdCheckboxModule
+  MdCheckboxModule,
+  MdSelectModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import 'hammerjs';
@@ -42,13 +44,15 @@ import { DateValueAccessorModule } from 'angular-date-value-accessor';
     MdToolbarModule,
     MdButtonModule,
     MdDatepickerModule,
+    MdNativeDateModule,
     MdFormFieldModule,
     MdOptionModule,
     MdMenuModule,
     MdRadioModule,
     MdTooltipModule,
     FlexLayoutModule,
-    MdCheckboxModule
+    MdCheckboxModule,
+    MdSelectModule
   ],
   providers: [
     ModuleService

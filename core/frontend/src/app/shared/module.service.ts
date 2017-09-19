@@ -25,13 +25,10 @@ export class ModuleService {
         return res.map(m => {
           m.settings.map(s => {
             if (s.type === 'date') {
-              const arr = s.value.split('-');
-              s.value = {
-                year:  arr[0],
-                month: arr[1],
-                day:   arr[2],
-              };
+              s.default = new Date(s.default);
+              s.value = new Date(s.value);
             }
+            console.log(s);
             return s;
           });
           return m;
