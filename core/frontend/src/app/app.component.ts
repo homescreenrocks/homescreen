@@ -6,10 +6,10 @@ import 'rxjs/add/operator/filter';
 import { Subscription } from 'rxjs/Subscription';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 import { MatSidenav, MatSnackBar } from '@angular/material';
-import * as domHelper from './helpers/dom.helper';
+import * as domHelper from './shared/helpers/dom.helper';
 
-import { RoutePartsService } from './services/route-parts/route-parts.service';
-import { ThemeService } from './services/theme/theme.service';
+import { RoutePartsService } from './shared/services/route-parts/route-parts.service';
+import { ThemeService } from './shared/services/theme/theme.service';
 
 @Component({
   selector: 'hs-root',
