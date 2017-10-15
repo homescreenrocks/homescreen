@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ModuleService } from '../shared/module.service';
-import { IModule } from '../shared/module-interface';
+import { ModuleService } from '../services/module/module.service';
+import { IModule } from '../services/module/module-interface';
 
 @Component({
   selector: 'hs-settings',

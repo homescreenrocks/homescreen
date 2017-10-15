@@ -1,23 +1,27 @@
-<md-toolbar color="primary">
-    <button md-button routerLink="/">
-      <md-icon>home</md-icon> Homescreen.rocks
-    </button>
+<mat-sidenav-container class="app-side-nav-container">
+  <!-- Main side navigation -->
+  <mat-sidenav #sidenav [opened]="isSidenavOpen" mode="side">
+    <mat-toolbar color="primary">
+      <button mat-button [matTooltip]="Startseite">
+        Homescreen
+      </button>
+    </mat-toolbar>
 
-    <!-- This fills the remaining space of the current row -->
-    <span class="fill-remaining-space"></span>
-
-    <div fxLayout="row" fxShow="false" fxShow.gt-sm>
-        <button md-button routerLink="/settings">Settings</button>
+    <div id="scroll-area" class="navigation-hold" fxLayout="column">
+      <hs-navigation></hs-navigation>
     </div>
-    <button md-button [md-menu-trigger-for]="menu" fxHide="false" fxHide.gt-sm>
-       <md-icon>menu</md-icon>
-    </button>
+  </mat-sidenav>
 
-</md-toolbar>
-<md-menu x-position="before" #menu="mdMenu">
-    <button md-menu-item routerLink="/settings">Settings</button>
-</md-menu>
+  <!-- Top Bar -->
+  <!-- Template reference variables of Left sidebar and Right notification is supplied -->
+  <!-- Listens language change event -->
+  <hs-topbar
+  [sidenav]="sidenav"
+  [notificPanel]="notificationPanel"
+  (onLangChange)="translate.use($event)"></hs-topbar>
+  <!-- App content -->
+  <div class="rightside-content-hold">
+    <router-outlet></router-outlet>
+  </div>
 
-<div>
- <router-outlet></router-outlet>
-</div>
+</mat-sidenav-container>

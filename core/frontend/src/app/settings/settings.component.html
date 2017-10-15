@@ -1,65 +1,39 @@
-<md-card *ngFor="let module of modules">
-  <md-card-header mdTooltip="{{ module.metadata.version }}" mdTooltipPosition="right">
-    <md-card-title>
-      <h3>{{ module.metadata.name }}</h3>
-    </md-card-title>
-  </md-card-header>
-  <md-card-subtitle>
-    {{ module.metadata.description }}
-  </md-card-subtitle>
-  <md-card-content>
-    <!--<form>
-      <div *ngFor="let s of module.settings">
-        <div *ngIf="s.type != 'bool'">
-          <div [ngSwitch]="s.type">
-            <md-form-field *ngSwitchDefault>
-              <input mdInput        type="text"   [(ngModel)]="s.value" [name]="s.name"/>
-            </md-form-field>
-            <md-form-field *ngSwitchCase="'number'" >
-              <input mdInputtype="number" [(ngModel)]="s.value" [name]="s.name"/>
-            </md-form-field>
-            <md-form-field *ngSwitchCase="'date'">
-              <input mdInput [mdDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="s.value" [name]="s.name">
-              <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
-              <md-datepicker #picker></md-datepicker>
-            </md-form-field>
-            <md-checkbox *ngSwitchCase="'bool'" [(ngModel)]="s.value" [ngModelOptions]="{standalone: true}">Checked</md-checkbox>
+<mat-accordion class="headers-align">
+  <mat-expansion-panel *ngFor="let module of modules" [matTooltip]="module.metadata.version">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ module.metadata.name }}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ module.metadata.description }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
 
-          </div>
-        </div>
+    <div *ngFor="let s of module.settings">
+      <mat-form-field *ngIf="s.type === 'string' && !s['possible-values']">
+        <input matInput type="text" [(ngModel)]="s.value" [name]="s.name"/>
+      </mat-form-field>
+      <mat-form-field *ngIf="s.type === 'number'">
+        <input matInput type="number" [(ngModel)]="s.value" [name]="s.name"/>
+      </mat-form-field>
+      <mat-form-field *ngIf="s.type === 'date'">
+        <input matInput [matDatepicker]="datePicker" placeholder="Choose a date" [(ngModel)]="s.value" [name]="s.name">
+        <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+        <mat-datepicker #datePicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field *ngIf="s.type === 'time'">
+          <input matInput type="text" [(ngModel)]="s.value" [name]="s.name"/>
+      </mat-form-field>
+      <div *ngIf="s.type === 'bool'">
+        <mat-checkbox [(ngModel)]="s.value" [ngModelOptions]="{standalone: true}">{{ s.name }}</mat-checkbox>
       </div>
-    </form>-->
+      <mat-select *ngIf="s.type === 'string' && s['possible-values']" [placeholder]="s.name" [(ngModel)]="s.value" name="s.name">
+        <mat-option *ngFor="let val of s['possible-values']" [value]="s.value">
+          {{ val }}
+        </mat-option>
+      </mat-select>
+    </div>
 
-
-    <form>
-      <div *ngFor="let s of module.settings">
-        <md-form-field *ngIf="s.type === 'string' && !s['possible-values']">
-          <input mdInput type="text" [(ngModel)]="s.value" [name]="s.name"/>
-        </md-form-field>
-        <md-form-field *ngIf="s.type === 'number'">
-          <input mdInput type="number" [(ngModel)]="s.value" [name]="s.name"/>
-        </md-form-field>
-        <md-form-field *ngIf="s.type === 'date'">
-          <input mdInput [mdDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="s.value" [name]="s.name">
-          <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
-          <md-datepicker #picker></md-datepicker>
-        </md-form-field>
-        <md-form-field *ngIf="s.type === 'time'">
-            <input mdInput type="text" [(ngModel)]="s.value" [name]="s.name"/>
-        </md-form-field>
-        <div *ngIf="s.type === 'bool'">
-          <!-- Info: Timepicker is on the roadmap for material2 ;-) -->
-          <md-checkbox [(ngModel)]="s.value" [ngModelOptions]="{standalone: true}">{{ s.name }}</md-checkbox>
-        </div>
-        <md-select *ngIf="s.type === 'string' && s['possible-values']" [placeholder]="s.name" [(ngModel)]="s.value" name="s.name">
-          <md-option *ngFor="let val of s['possible-values']" [value]="s.value">
-            {{ val }}
-          </md-option>
-        </md-select>
-      </div>
-    </form>
-
-  </md-card-content>
-</md-card>
-
+  </mat-expansion-panel>
+</mat-accordion>
 
