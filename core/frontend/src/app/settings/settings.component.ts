@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ModuleService } from '../shared/services/module/module.service';
-import { IModule } from '../shared/services/module/module-interface';
+import { IModule, IModuleSetting } from '../shared/services/module/module-interface';
 
 @Component({
   selector: 'hs-settings',
@@ -18,8 +18,15 @@ export class SettingsComponent implements OnInit {
   ngOnInit() {
     this.ms.getSettings()
       .subscribe(res => {
+        console.log(res);
         this.modules = res;
       });
+  }
+
+  saveSettings(id:  number, settings: IModuleSetting[]) {
+    console.log(id, settings);
+    this.ms.setModuleValues(id, settings)
+      .subscribe(res => res);
   }
 
 }
